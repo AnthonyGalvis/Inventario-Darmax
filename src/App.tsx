@@ -160,11 +160,11 @@ const SidebarItem = ({ icon, label, active, onClick }: { icon: React.ReactNode; 
 
 export default function App() {
 
-  const token = localStorage.getItem("token");
+  const token = null;
 
-if (!token) {
-  return <Login />;
-}
+  if (!token) {
+    return <Login />;
+  }
 
   const [activeTab, setActiveTab] = useState<'dashboard' | 'inventory' | 'lots' | 'reports' | 'admin' | 'customers'>('dashboard');
   const [isSidebarOpen, setSidebarOpen] = useState(true);
