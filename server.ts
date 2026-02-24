@@ -21,10 +21,19 @@ async function startServer() {
   app.get("/api/health", (req, res) => res.json({ status: "ok" }));
 
   if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({ server: { middlewareMode: true }, appType: "spa" });
-    app.use(vite.middlewares);
-  }
-
-  app.listen(3000, "0.0.0.0", () => console.log("Server running on port 3000"));
+  const vite = await createViteServer({
+    server: { middlewareMode: true },
+    appType: "spa"
+  });
+  app.use(vite.middlewares);
+} else {
+  app.use(express.static(path.join(__dirname, "dist")));
 }
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
 startServer();
