@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import Login from "./Login" ;
 import React, { useState, useEffect } from 'react';
 import { 
   LayoutDashboard, 
@@ -158,6 +159,13 @@ const SidebarItem = ({ icon, label, active, onClick }: { icon: React.ReactNode; 
 );
 
 export default function App() {
+
+  const token = localStorage.getItem("token");
+
+if (!token) {
+  return <Login />;
+}
+
   const [activeTab, setActiveTab] = useState<'dashboard' | 'inventory' | 'lots' | 'reports' | 'admin' | 'customers'>('dashboard');
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [showProductModal, setShowProductModal] = useState(false);
