@@ -67,5 +67,41 @@ async function startServer() {
     const valid = bcrypt.compareSync(password, user.password);
 
     if (!valid) {
-      return res.status(401).json({ erro
+  return res.status(401).json({ error: "Token inválido" });
+}
+
+    // Generar token
+    const token = jwt.sign(
+      { id: user.id, username: user.username },
+      "secreto_super_seguro",
+      { expiresIn: "2h" }
+    );
+
+    res.json({ token });
+  });
+
+  // -------- HEALTH CHECK --------
+  app.get("/api/health", (req, res) => {
+    res.json({ status: "ok" });
+  });
+
+  // -------- VITE / PRODUCCIÓN --------
+  if (process.env.NODE_ENV !== "production") {
+    const vite = await createViteServer({
+      server: { middlewareMode: true },
+      appType: "spa"
+    });
+    app.use(vite.middlewares);
+  } else {
+    app.use(express.static(path.join(__dirname, "dist")));
+  }
+
+  const PORT = process.env.PORT || 3000;
+
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+startServer();
 
