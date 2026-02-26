@@ -76,7 +76,7 @@ if (productCount.count === 0) {
 const userCount = db.prepare("SELECT COUNT(*) as count FROM users").get() as { count: number };
 
 if (userCount.count === 0) {
-  const hashed = bcrypt.hashSync("123456", 10);
+  const hashed = bcrypt.hashSync("Darmax2026!Secure", 10);
 
   db.prepare(
     "INSERT INTO users (username, password, role) VALUES (?, ?, ?)"
